@@ -1,0 +1,8 @@
+validation.unauthorized=Unauthorized request: {0}
+validation.forbidden=Forbidden: {0}
+validation.notFound=Cannot find {0}
+validation.error=An error occurred: {0}
+
+validation.app.contenttype.notset=Content-Type not set. Should be {0}
+validation.app.parseError=Cannot decrypt and/or parse the request body
+validation.app.required={0} is required
