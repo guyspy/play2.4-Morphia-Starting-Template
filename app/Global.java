@@ -3,6 +3,7 @@ import play.mvc.*;
 import java.lang.reflect.Method;
 
 import models.*;
+import models.app.ClientInfo;
 
 public class Global extends GlobalSettings {
 
@@ -11,12 +12,13 @@ public class Global extends GlobalSettings {
     Logger.info("Application has started");
     utils.ds.MongoDB.connect();
     // create default clientInfos
-    if (MorphiaModel.count(ClientInfo.class) == 0) {
-      new ClientInfo(Platform.ADMIN).save();
-      new ClientInfo(Platform.IOS).save();
-      new ClientInfo(Platform.ANDROID).save();
-      new ClientInfo(Platform.WP).save();
+    if (MongoModel.count(ClientInfo.class) == 0) {
+      ClientInfo admin = new ClientInfo(Platform.ADMIN, "admin").save();
+      ClientInfo ios = new ClientInfo(Platform.IOS, "ios").save();
+      ClientInfo android = new ClientInfo(Platform.ANDROID, "android").save();
+      ClientInfo wp = new ClientInfo(Platform.WP, "wp").save();
     }
+
     // load dummy post data if not prod
     if (!Play.isProd()) {
       try{

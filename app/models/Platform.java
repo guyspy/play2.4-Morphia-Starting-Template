@@ -5,14 +5,14 @@ package models;
  */
 public class Platform {
 
-  public static final long ADMIN = 0L;
+  public static final Long ADMIN = 0L;
 
-  public static final long IOS = 1L;
+  public static final Long IOS = 1L;
 
-  public static final long ANDROID = 2L;
+  public static final Long ANDROID = 2L;
 
-  public static final long WP = 3L;
+  public static final Long WP = 3L;
 
-  public static final long ANDROIDTV = 4L;
+  public static final Long ANDROIDTV = 4L;
 
 }

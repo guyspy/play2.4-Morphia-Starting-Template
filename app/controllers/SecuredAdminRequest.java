@@ -21,14 +21,14 @@ public class SecuredAdminRequest extends Security.Authenticator {
     String checksum = req.getHeader("x-aotter-checksum");
     // find authen
     // TBD: use cache
-    ClientInfo ci = ClientInfo.findClientInfo(clientId);
+    /*ClientInfo ci = ClientInfo.findClientInfo(clientId);
     if (
       ci != null &&
       ci.platform == Platform.ADMIN &&
       isChecksumValid(ci, ts, checksum)
     ) {
       result = clientId;
-    }
+    }*/
     return result;
   }
 
@@ -47,7 +47,7 @@ public class SecuredAdminRequest extends Security.Authenticator {
     return ok(result);
   }
 
-  private static boolean isChecksumValid(ClientInfo ci, String ts, String checksum){
+  /*private static boolean isChecksumValid(ClientInfo ci, String ts, String checksum){
     boolean result = false;
     try{
       // check ts
@@ -64,6 +64,6 @@ public class SecuredAdminRequest extends Security.Authenticator {
     }
     catch (Exception e){}
     return result;
-  }
+  }*/
 
 }

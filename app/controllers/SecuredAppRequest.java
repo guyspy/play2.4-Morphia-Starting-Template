@@ -22,13 +22,13 @@ public class SecuredAppRequest extends Security.Authenticator {
     String clientId = req.getHeader("x-aotter-clientid");
     String clientSecret = req.getHeader("x-aotter-clientsecret");
     // find authen
-    ClientInfo ci = Util.getClientInfo(clientId, clientSecret);
+    /*ClientInfo ci = Util.getClientInfo(clientId, clientSecret);
     if (ci != null) {
       // set more info
       ctx.args.put("platform", ci.platform);
       ctx.args.put("clientSecret", ci.clientSecret);
       result = clientId;
-    }
+    }*/
     return result;
   }
 

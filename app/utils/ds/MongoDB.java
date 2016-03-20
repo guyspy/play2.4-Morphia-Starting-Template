@@ -1,13 +1,17 @@
 package utils.ds;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import org.mongodb.morphia.Morphia;
-import play.Logger;
 import play.Play;
-import models.*;
+import com.mongodb.rx.client.MongoClients;
+import com.mongodb.rx.client.MongoClient;
+import com.mongodb.rx.client.MongoDatabase;
+import com.mongodb.rx.client.MongoCollection;
+import org.bson.Document;
 
 public final class MongoDB {
+
+  public static MongoClient mongoClient;
+
+  public static MongoDatabase DB;
 
   public static final String MONGODB_URI = Play.application().configuration().getString("mongodb.uri");
 
@@ -15,32 +19,23 @@ public final class MongoDB {
 
   /**
    * Connects to MongoDB based on the configuration settings.
-   * <p/>
-   * If the database is not reachable, an error message is written and the
-   * application exits.
    */
   public static boolean connect() {
-    String _mongoURI = MONGODB_URI+MONGODB_NAME;
-    MongoClientURI mongoURI = new MongoClientURI(_mongoURI);
-    MorphiaObject.mongo = null;
-    try {
-      MorphiaObject.mongo = new MongoClient(mongoURI);
-    }
-    catch (Exception e) {
-      Logger.info("Unknown Host");
-    }
-    if (MorphiaObject.mongo != null) {
-      MorphiaObject.morphia = new Morphia();
-      MorphiaObject.datastore = MorphiaObject.morphia.createDatastore(MorphiaObject.mongo, mongoURI.getDatabase());
-      //Map classes
-      MorphiaObject.morphia.map(ClientInfo.class);
-      //EnsureIndexes
-      MorphiaObject.datastore.ensureIndexes();
-      MorphiaObject.datastore.ensureCaps();
-    }
-    Logger.debug("** Morphia datastore: " + MorphiaObject.datastore.getDB());
+    mongoClient = MongoClients.create(MONGODB_URI);
+    DB = mongoClient.getDatabase(MONGODB_NAME);
     return true;
   }
+
+  public static void test(){
+    MongoCollection<Document> collection = DB.getCollection("test");
+    collection.insertOne(new Document("name", "GG")).toBlocking().single();
+  }
+
+  public static MongoCollection<Document> col(String name){
+    return DB.getCollection(name);
+  }
+
+
 
 
 }
