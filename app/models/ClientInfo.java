@@ -12,6 +12,7 @@ import org.mongodb.morphia.query.Query;
 import org.apache.commons.codec.binary.Base64;
 import java.util.*;
 import java.security.SecureRandom;
+import play.cache.Cache;
 import play.libs.Crypto;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
@@ -66,6 +67,17 @@ public class ClientInfo extends MorphiaModel {
   public static ClientInfo findClientInfo(String clientId){
     Query<ClientInfo> q = MorphiaModel.q(ClientInfo.class);
     return q.filter("clientId", clientId).get();
+  }
+
+  public static ClientInfo getClientInfo(String clientId, String clientSecret){
+    ClientInfo ci = (ClientInfo)Cache.get(clientId+clientSecret);
+    if (ci == null) {
+      ci = ClientInfo.findClientInfo(clientId, clientSecret);
+    }
+    if (ci != null) {
+      Cache.set(clientId+clientSecret, ci);
+    }
+    return ci;
   }
 
 }
